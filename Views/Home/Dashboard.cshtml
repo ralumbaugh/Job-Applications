@@ -5,15 +5,20 @@
         <a href="NewCompany"><button class="btn btn-primary">Make New Company</button></a>
     </div>
     <div class="row">
-        <p>Companies applied at:</p>
-        @foreach (Company Company in Model.AllCompanies)
-        {
-            <ul>
-                @if(Company.UserId == Model.CurrentUser.UserId)
-                {
-                    <li><a href="/company/@Company.CompanyId"><p>@Company.Name</p></a></li>
-                }
-            </ul>
-        }
+        <div class="col">
+            <p>Companies applied at:</p>
+            @foreach (Company Company in Model.AllCompanies)
+            {
+                <ul>
+                    @if(Company.UserId == Model.CurrentUser.UserId)
+                    {
+                        <li><a href="/company/@Company.CompanyId"><p>@Company.Name</p></a></li>
+                    }
+                </ul>
+            }
+        </div>
+        <div class="col">
+            <p>Upcoming Interviews:</p>
+        </div>
     </div>
 </div>

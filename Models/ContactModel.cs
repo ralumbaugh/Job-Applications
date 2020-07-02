@@ -13,8 +13,8 @@ namespace JobApplications.Models
     [Required (ErrorMessage = "The contact has a name")]
     public string Name {get; set;}
     [Required (ErrorMessage="Which company is this a contact for?")]
-    public int CompanyId {get; set;}
-    public Company Company {get; set;}
+    public int PositionId {get; set;}
+    public Position Position {get; set;}
     [DataType(DataType.PhoneNumber, ErrorMessage="Please input a valid phone number")]
     public string PhoneNumber {get; set;}
     [EmailAddress (ErrorMessage = "Please input a valid email address")]

@@ -1,0 +1,42 @@
+@model UserWrapper
+<div class="container">
+    <form asp-action="CreatePosition" asp-controller="Home" method="POST">
+        <input type="hidden" asp-validation-asp-for="CurrentPosition.CompanyId" value=@Model.CurrentCompany.CompanyId>
+        <span class="text-danger" asp-validation-for="CurrentPosition.Name"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentPosition.Name"></label>
+                <input asp-for="CurrentPosition.Name">
+            </div>
+        </div>
+        <span class="text-danger" asp-validation-for="CurrentPosition.Description"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentPosition.Description"></label>
+                <input asp-for="CurrentPosition.Description">
+            </div>
+        </div>
+        <span class="text-danger" asp-validation-for="CurrentPosition.Requirements"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentPosition.Requirements"></label>
+                <input asp-for="CurrentPosition.Requirements">
+            </div>
+        </div>
+        <span class="text-danger" asp-validation-for="CurrentPosition.Link"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentPosition.Link"></label>
+                <input asp-for="CurrentPosition.Link">
+            </div>
+        </div>
+        <span class="text-danger" asp-validation-for="CurrentPosition.Notes"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentPosition.Notes"></label>
+                <input asp-for="CurrentPosition.Notes">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Position</button>
+    </form>
+</div>

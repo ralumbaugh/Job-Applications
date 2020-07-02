@@ -16,8 +16,7 @@ namespace JobApplications.Models
     public int UserId {get; set;}
     public User User {get; set;}
     public string Notes {get; set;}
-    public List<Interview> Interviews {get; set;}
-    public List<Contact> Contacts {get; set;}
+    public List<Position> Positions {get; set;}
     public DateTime CreatedAt {get; set;} = DateTime.Now;
     public DateTime UpdatedAt {get; set;} = DateTime.Now;
     }

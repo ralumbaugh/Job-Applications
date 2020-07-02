@@ -91,6 +91,45 @@ namespace JobApplications.Controllers
             Wrapper.CurrentCompany = CurrentCompany;
             return View("IndividualCompany", Wrapper);
         }
+		[HttpGet("{companyid}/NewPosition")]
+        public IActionResult NewPosition(int companyid)
+        {
+            int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
+            if(LoggedInUserID==null)
+            {
+                return RedirectToAction("Index");
+            }
+            Company CurrentCompany = dbContext.Companies.FirstOrDefault(c => c.CompanyId == companyid);
+            if(CurrentCompany == null || CurrentCompany.UserId != (int)LoggedInUserID)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            UserWrapper Wrapper = new UserWrapper();
+            Wrapper.CurrentCompany = CurrentCompany;
+            return View("NewPosition", Wrapper);
+        }
+		[HttpPost("CreatePosition")]
+        public IActionResult CreatePosition(UserWrapper WrappedPosition)
+        {
+            int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
+            if(LoggedInUserID==null)
+            {
+                return RedirectToAction("Index");
+            }
+            Company CurrentCompany = dbContext.Companies.FirstOrDefault(c => c.CompanyId == WrappedPosition.CurrentPosition.CompanyId);
+            if(CurrentCompany == null || CurrentCompany.UserId != (int)LoggedInUserID)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            if(ModelState.IsValid)
+            {
+                dbContext.Positions.Add(WrappedPosition.CurrentPosition);
+                dbContext.SaveChanges();
+                return IndividualCompany(WrappedPosition.CurrentCompany.CompanyId);
+            }
+            WrappedPosition.CurrentCompany = CurrentCompany;
+            return View("NewPosition", WrappedPosition);
+        }
         public IActionResult Login(LoginWrapper WrappedUser)
         {
             LoginUser user = WrappedUser.LoginUser;

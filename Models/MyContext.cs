@@ -7,6 +7,7 @@ namespace JobApplications.Models
         public MyContext(DbContextOptions options) : base(options) { }
         public DbSet<User> Users {get; set;}
         public DbSet<Company> Companies {get; set;}
+        public DbSet<Position> Positions {get; set;}
         public DbSet<Contact> Contacts {get; set;}
         public DbSet<Interview> Interviews {get; set;}
     }

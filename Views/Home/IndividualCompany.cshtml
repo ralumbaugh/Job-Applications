@@ -1,2 +1,27 @@
 @model UserWrapper
-<h1>Welcome @Model.CurrentUser.FirstName. This is the page for @Model.CurrentCompany.Name</h1>
+<div class="d-flex justify-content-center flex-column">
+    <h1>Welcome @Model.CurrentUser.FirstName. This is the page for @Model.CurrentCompany.Name</h1>
+    <h4>Description: @Model.CurrentCompany.Description</h4>
+    <div class="row d-flex justify-content-around">
+            <a href="/@Model.CurrentCompany.CompanyId/NewPosition"><button class="btn btn-primary">Apply for Position</button></a>
+            <a href="/EditCompany"><button class="btn btn-primary">Edit Company</button></a>
+            <a href="/EditCompany"><button class="btn btn-primary">Change Notes</button></a>
+            <a href="/DeleteCompany"><button class="btn btn-danger">Delete Company</button></a>
+    </div>
+    @if(@Model.CurrentCompany.Notes != null){
+        <div class="row d-flex justify-content-start">
+            <p>Notes:@Model.CurrentCompany.Notes</p>
+        </div>
+    }
+    @if(@Model.CurrentCompany.Positions != null){
+        <div class="row d-flex justify-content-start flex-column">
+            <p>Here are positions you have applied for with this company:@Model.CurrentCompany.Notes</p>
+            <ul>
+                @foreach(Position position in Model.CurrentCompany.Positions)
+                {
+                    <li>@position.Name</li>
+                }
+            </ul>
+        </div>
+    }
+</div>

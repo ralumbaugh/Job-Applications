@@ -12,8 +12,8 @@ namespace JobApplications.Models
     [Required (ErrorMessage="A date is required")]
     public DateTime? Date {get; set;}
     [Required (ErrorMessage= "Which company are you interviewing with?")]
-    public int CompanyId {get; set;}
-    public Company Company {get; set;}
+    public int PositionId {get; set;}
+    public Position Position {get; set;}
     public string Notes {get; set;}
     public DateTime CreatedAt {get; set;} = DateTime.Now;
     public DateTime UpdatedAt {get; set;} = DateTime.Now;

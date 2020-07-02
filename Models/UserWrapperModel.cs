@@ -11,6 +11,7 @@ namespace JobApplications.Models
     public int UserWrapperId {get; set;}
     public User CurrentUser {get; set;}
     public Company CurrentCompany {get; set;}
+    public Position CurrentPosition {get; set;}
     public List<Company> AllCompanies {get; set;}
     }
 }
