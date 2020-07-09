@@ -1,0 +1,27 @@
+@model UserWrapper
+<div class="container">
+    <form asp-action="ChangeCompany" asp-controller="Home" method="POST">
+        <input type="hidden" asp-for="CurrentCompany.CompanyId" value="@Model.CurrentCompany.CompanyId">
+        <span class="text-danger" asp-validation-for="CurrentCompany.Name"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentCompany.Name"></label>
+                <input asp-for="CurrentCompany.Name">
+            </div>
+        </div>
+        <span class="text-danger" asp-validation-for="CurrentCompany.Description"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentCompany.Description"></label>
+                <input asp-for="CurrentCompany.Description">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentCompany.Notes"></label>
+                <input asp-for="CurrentCompany.Notes">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Edit Company</button>
+    </form>
+</div>

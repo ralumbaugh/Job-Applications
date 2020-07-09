@@ -1,7 +1,7 @@
 @model UserWrapper
 <div class="container">
-    <form asp-action="CreatePosition" asp-controller="Home" method="POST">
-        <input type="hidden" asp-for="CurrentPosition.CompanyId" value=@Model.CurrentCompany.CompanyId>
+    <form asp-action="ChangePosition" asp-controller="Home" method="POST">
+        <input type="hidden" asp-for="CurrentPosition.PositionId" value="@Model.CurrentPosition.PositionId">
         <span class="text-danger" asp-validation-for="CurrentPosition.Name"></span>
         <div class="row">
             <div class="form-group d-flex flex-column justify-content-between">
@@ -37,6 +37,6 @@
                 <input asp-for="CurrentPosition.Notes">
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Add Position</button>
+        <button type="submit" class="btn btn-primary">Edit Position</button>
     </form>
 </div>

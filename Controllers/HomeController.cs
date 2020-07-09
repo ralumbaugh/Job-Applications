@@ -56,6 +56,93 @@ namespace JobApplications.Controllers
             Wrapper.CurrentUser = dbContext.Users.FirstOrDefault(u =>u.UserId == (int)LoggedInUserID);
             return View("NewCompany", Wrapper);
         }
+		[HttpGet("EditCompany/{companyid}")]
+        public IActionResult EditCompany(int companyid)
+        {
+            int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
+            if(LoggedInUserID==null)
+            {
+                return RedirectToAction("Index");
+            }
+            Company CurrentCompany = dbContext.Companies.FirstOrDefault(c => c.CompanyId == companyid);
+            if(CurrentCompany == null || CurrentCompany.UserId != (int)LoggedInUserID)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            UserWrapper Wrapper = new UserWrapper();
+            Wrapper.CurrentUser = dbContext.Users.FirstOrDefault(u =>u.UserId == (int)LoggedInUserID);
+            Wrapper.CurrentCompany = CurrentCompany;
+            return View("EditCompany", Wrapper);
+        }
+		[HttpGet("EditPosition/{positionid}")]
+        public IActionResult EditPosition(int positionid)
+        {
+            int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
+            if(LoggedInUserID==null)
+            {
+                return RedirectToAction("Index");
+            }
+            Position CurrentPosition = dbContext.Positions.Include(c => c.Company).FirstOrDefault(c => c.PositionId == positionid);
+            if(CurrentPosition == null || CurrentPosition.Company.UserId != (int)LoggedInUserID)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            UserWrapper Wrapper = new UserWrapper();
+            Wrapper.CurrentUser = dbContext.Users.FirstOrDefault(u =>u.UserId == (int)LoggedInUserID);
+            Wrapper.CurrentPosition = CurrentPosition;
+            return View("EditPosition", Wrapper);
+        }
+        public IActionResult ChangePosition(UserWrapper WrappedPosition)
+        {
+            int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
+            Position PositionToEdit = dbContext.Positions.Include(c => c.Company).FirstOrDefault(p => p.PositionId == WrappedPosition.CurrentPosition.PositionId);
+            PositionToEdit.Name = WrappedPosition.CurrentPosition.Name;
+            PositionToEdit.Description = WrappedPosition.CurrentPosition.Description;
+            PositionToEdit.Requirements = WrappedPosition.CurrentPosition.Requirements;
+            PositionToEdit.Link = WrappedPosition.CurrentPosition.Link;
+            PositionToEdit.Notes = WrappedPosition.CurrentPosition.Notes;
+            WrappedPosition.CurrentPosition = PositionToEdit;
+            if(LoggedInUserID==null)
+            {
+                return RedirectToAction("Index");
+            }
+            if(WrappedPosition.CurrentPosition.Company.UserId != (int)LoggedInUserID)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            if(ModelState.IsValid)
+            {
+                dbContext.Positions.Update(PositionToEdit);
+                dbContext.SaveChanges();
+                return IndividualPosition(WrappedPosition.CurrentPosition.PositionId);
+            }
+            return EditPosition(WrappedPosition.CurrentPosition.PositionId);
+        }
+		[HttpPost("ChangeCompany")]
+        public IActionResult ChangeCompany(UserWrapper WrappedCompany)
+        {
+            int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
+            Company CompanyToEdit = dbContext.Companies.FirstOrDefault(c => c.CompanyId == WrappedCompany.CurrentCompany.CompanyId);
+            CompanyToEdit.Name = WrappedCompany.CurrentCompany.Name;
+            CompanyToEdit.Description = WrappedCompany.CurrentCompany.Description;
+            CompanyToEdit.Notes = WrappedCompany.CurrentCompany.Notes;
+            WrappedCompany.CurrentCompany = CompanyToEdit;
+            if(LoggedInUserID==null)
+            {
+                return RedirectToAction("Index");
+            }
+            if(WrappedCompany.CurrentCompany.UserId != (int)LoggedInUserID)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            if(ModelState.IsValid)
+            {
+                dbContext.Companies.Update(CompanyToEdit);
+                dbContext.SaveChanges();
+                return IndividualCompany(WrappedCompany.CurrentCompany.CompanyId);
+            }
+            return EditCompany(WrappedCompany.CurrentCompany.CompanyId);
+        }
 		[HttpPost("CreateCompany")]
         public IActionResult CreateCompany(UserWrapper WrappedCompany)
         {
@@ -77,7 +164,7 @@ namespace JobApplications.Controllers
         public IActionResult IndividualCompany(int companyid)
         {
             int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
-            Company CurrentCompany = dbContext.Companies.FirstOrDefault(c => c.CompanyId == companyid);
+            Company CurrentCompany = dbContext.Companies.Include(p => p.Positions).FirstOrDefault(c => c.CompanyId == companyid);
             if(LoggedInUserID==null)
             {
                 return RedirectToAction("Index");
@@ -91,7 +178,25 @@ namespace JobApplications.Controllers
             Wrapper.CurrentCompany = CurrentCompany;
             return View("IndividualCompany", Wrapper);
         }
-		[HttpGet("{companyid}/NewPosition")]
+		[HttpGet("position/{positionid}")]
+        public IActionResult IndividualPosition(int positionid)
+        {
+            int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
+            Position CurrentPosition = dbContext.Positions.Include(c => c.Company).Include(i => i.Interviews).FirstOrDefault(c => c.PositionId == positionid);
+            if(LoggedInUserID==null)
+            {
+                return RedirectToAction("Index");
+            }
+            else if(CurrentPosition == null || CurrentPosition.Company.UserId != (int)LoggedInUserID)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            UserWrapper Wrapper = new UserWrapper();
+            Wrapper.CurrentUser = dbContext.Users.FirstOrDefault(u =>u.UserId == (int)LoggedInUserID);
+            Wrapper.CurrentPosition = CurrentPosition;
+            return View("IndividualPosition", Wrapper);
+        }
+		[HttpGet("NewPosition/{companyid}")]
         public IActionResult NewPosition(int companyid)
         {
             int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
@@ -125,10 +230,44 @@ namespace JobApplications.Controllers
             {
                 dbContext.Positions.Add(WrappedPosition.CurrentPosition);
                 dbContext.SaveChanges();
-                return IndividualCompany(WrappedPosition.CurrentCompany.CompanyId);
+                return IndividualCompany(CurrentCompany.CompanyId);
             }
             WrappedPosition.CurrentCompany = CurrentCompany;
             return View("NewPosition", WrappedPosition);
+        }
+		[HttpGet("DeleteCompany/{companyid}")]
+        public IActionResult Delete(int companyid)
+        {
+            int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
+            if(LoggedInUserID==null)
+            {
+                return RedirectToAction("Index");
+            }
+            Company CompanyToDelete = dbContext.Companies.FirstOrDefault(c => c.CompanyId == companyid);
+            if(CompanyToDelete == null || CompanyToDelete.UserId != (int)LoggedInUserID)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            dbContext.Companies.Remove(CompanyToDelete);
+            dbContext.SaveChanges();
+            return RedirectToAction("Dashboard");
+        }
+		[HttpGet("DeletePosition/{positionid}")]
+        public IActionResult DeletePosition(int positionid)
+        {
+            int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
+            if(LoggedInUserID==null)
+            {
+                return RedirectToAction("Index");
+            }
+            Position PositionToDelete = dbContext.Positions.Include(c => c.Company).FirstOrDefault(c => c.PositionId == positionid);
+            if(PositionToDelete == null || PositionToDelete.Company.UserId != (int)LoggedInUserID)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            dbContext.Positions.Remove(PositionToDelete);
+            dbContext.SaveChanges();
+            return RedirectToAction("Dashboard");
         }
         public IActionResult Login(LoginWrapper WrappedUser)
         {
