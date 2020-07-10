@@ -8,24 +8,49 @@
             @* <a href="/EditCompany"><button class="btn btn-primary">Change Notes</button></a> *@
             <a href="/DeletePosition/@Model.CurrentPosition.PositionId"><button class="btn btn-danger">Delete Position</button></a>
     </div>
-    @if(@Model.CurrentPosition.Interviews.Count != 0){
-        <div class="row d-flex justify-content-start">
-            <p>Interviews:@Model.CurrentPosition.Interviews</p>
+    <hr>
+    <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="pills-requirements-tab" data-toggle="pill" href="#pills-requirements" role="tab" aria-controls="pills-requirements" aria-selected="true">Requirements</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-link-tab" data-toggle="pill" href="#pills-link" role="tab" aria-controls="pills-link" aria-selected="false">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-notes-tab" data-toggle="pill" href="#pills-notes" role="tab" aria-controls="pills-notes" aria-selected="false">Notes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-interviews-tab" data-toggle="pill" href="#pills-interviews" role="tab" aria-controls="pills-interviews" aria-selected="false">Interviews</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-requirements" role="tabpanel" aria-labelledby="pills-requirements-tab">
+            @if(@Model.CurrentPosition.Requirements != null){
+                <div class="row d-flex justify-content-start">
+                    <p>@Model.CurrentPosition.Requirements</p>
+                </div>
+            }
         </div>
-    }
-    @if(@Model.CurrentPosition.Requirements != null){
-        <div class="row d-flex justify-content-start">
-            <p>Requirements:@Model.CurrentPosition.Requirements</p>
+        <div class="tab-pane fade" id="pills-link" role="tabpanel" aria-labelledby="pills-link-tab">
+            @if(@Model.CurrentPosition.Link != null){
+                <div class="row d-flex justify-content-start">
+                    <p><a href="@Model.CurrentPosition.Link">@Model.CurrentPosition.Link</a></p>
+                </div>
+            }
         </div>
-    }
-    @if(@Model.CurrentPosition.Link != null){
-        <div class="row d-flex justify-content-start">
-            <p>Link:<a href="@Model.CurrentPosition.Link">@Model.CurrentPosition.Link</a></p>
+        <div class="tab-pane fade" id="pills-notes" role="tabpanel" aria-labelledby="pills-notes-tab">
+            @if(@Model.CurrentPosition.Notes != null){
+                <div class="row d-flex justify-content-start">
+                    <p>@Model.CurrentPosition.Notes</p>
+                </div>
+            }
         </div>
-    }
-    @if(@Model.CurrentPosition.Notes != null){
-        <div class="row d-flex justify-content-start">
-            <p>Notes:@Model.CurrentPosition.Notes</p>
+        <div class="tab-pane fade" id="pills-interviews" role="tabpanel" aria-labelledby="pills-interviews-tab">
+            @if(@Model.CurrentPosition.Interviews.Count != 0){
+                <div class="row d-flex justify-content-start">
+                    <p>@Model.CurrentPosition.Interviews</p>
+                </div>
+            }
         </div>
-    }
+    </div>
 </div>

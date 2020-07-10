@@ -92,6 +92,7 @@ namespace JobApplications.Controllers
             Wrapper.CurrentPosition = CurrentPosition;
             return View("EditPosition", Wrapper);
         }
+        [HttpPost("ChangePosition")]
         public IActionResult ChangePosition(UserWrapper WrappedPosition)
         {
             int? LoggedInUserID = HttpContext.Session.GetInt32("LoggedInUserID");
@@ -114,7 +115,7 @@ namespace JobApplications.Controllers
             {
                 dbContext.Positions.Update(PositionToEdit);
                 dbContext.SaveChanges();
-                return IndividualPosition(WrappedPosition.CurrentPosition.PositionId);
+                return Redirect($"position/{PositionToEdit.PositionId}");
             }
             return EditPosition(WrappedPosition.CurrentPosition.PositionId);
         }
@@ -139,7 +140,7 @@ namespace JobApplications.Controllers
             {
                 dbContext.Companies.Update(CompanyToEdit);
                 dbContext.SaveChanges();
-                return IndividualCompany(WrappedCompany.CurrentCompany.CompanyId);
+                return Redirect($"company/{CompanyToEdit.CompanyId}");
             }
             return EditCompany(WrappedCompany.CurrentCompany.CompanyId);
         }
