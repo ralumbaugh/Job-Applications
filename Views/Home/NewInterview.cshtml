@@ -1,0 +1,21 @@
+@model UserWrapper
+<div class="container">
+    <form asp-action="CreateInterview" asp-controller="Home" method="POST">
+        <span class="text-danger" asp-validation-for="CurrentInterview.Date"></span>
+        <input type="hidden" asp-for="CurrentInterview.PositionId" value=@Model.CurrentPosition.PositionId>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentInterview.Date"></label>
+                <input asp-for="CurrentInterview.Date">
+            </div>
+        </div>
+        <span class="text-danger" asp-validation-for="CurrentInterview.Notes"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentInterview.Notes"></label>
+                <input asp-for="CurrentInterview.Notes">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Schedule Interview</button>
+    </form>
+</div>

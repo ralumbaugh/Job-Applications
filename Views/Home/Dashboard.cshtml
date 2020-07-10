@@ -4,21 +4,55 @@
     <div class="row">
         <a href="NewCompany"><button class="btn btn-primary">Make New Company</button></a>
     </div>
-    <div class="row">
-        <div class="col">
-            <p>Companies applied at:</p>
-            @foreach (Company Company in Model.AllCompanies)
-            {
-                <ul>
-                    @if(Company.UserId == Model.CurrentUser.UserId)
+    <hr>
+    <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="pills-companies-tab" data-toggle="pill" href="#pills-companies" role="tab" aria-controls="pills-companies" aria-selected="true">Companies</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-interviews-tab" data-toggle="pill" href="#pills-interviews" role="tab" aria-controls="pills-interviews" aria-selected="false">Interviews</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-companies" role="tabpanel" aria-labelledby="pills-companies-tab">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Company</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Company company in Model.AllCompanies)
                     {
-                        <li><a href="/company/@Company.CompanyId"><p>@Company.Name</p></a></li>
+                        <tr>
+                            <td><a href="/company/@company.CompanyId"><p>@company.Name</p></a></td>
+                            <td><a href="/EditCompany/@company.CompanyId"><button class="btn btn-primary">Edit</button></a> | <a href="/DeleteCompany/@company.CompanyId"><button class="btn btn-danger">Delete</button></td>
+                        </tr>
                     }
-                </ul>
-            }
+                </tbody>
+            </table>
         </div>
-        <div class="col">
-            <p>Upcoming Interviews:</p>
+        <div class="tab-pane fade" id="pills-interviews" role="tabpanel" aria-labelledby="pills-interviews-tab">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Company</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Interview interview in Model.AllInterviews)
+                    {
+                        <tr>
+                            <td>@interview.Date</td>
+                            <td><a href="/company/@interview.Position.CompanyId">@interview.Position.Company.Name</a></td>
+                            <td><a href="/EditInterview/@interview.InterviewId"><button class="btn btn-primary">Edit</button></a> | <a href="/DeleteInterview/@interview.InterviewId"><button class="btn btn-danger">Delete</button></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

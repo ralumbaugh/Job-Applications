@@ -33,7 +33,31 @@
                 </div>
             }
         </div>
-        <div class="tab-pane fade" id="pills-contacts" role="tabpanel" aria-labelledby="pills-contacts-tab"></div>
+        <div class="tab-pane fade" id="pills-contacts" role="tabpanel" aria-labelledby="pills-contacts-tab">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Notes</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(Contact contact in @Model.AllContacts)
+                    {
+                        <tr>
+                            <td>@contact.Name</td>
+                            <td>@contact.PhoneNumber</td>
+                            <td>@contact.Email</td>
+                            <td>@contact.Notes</td>
+                            <td><a href="/EditContact/@contact.ContactId"><button class="btn btn-primary">Edit</button></a> | <a href="/DeleteContact/@contact.ContactId"><button class="btn btn-danger">Delete</button></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
         <div class="tab-pane fade" id="pills-notes" role="tabpanel" aria-labelledby="pills-notes-tab">
             @if(@Model.CurrentCompany.Notes != null){
                 <div class="row d-flex justify-content-start">

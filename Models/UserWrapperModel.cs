@@ -12,6 +12,10 @@ namespace JobApplications.Models
     public User CurrentUser {get; set;}
     public Company CurrentCompany {get; set;}
     public Position CurrentPosition {get; set;}
+    public Interview CurrentInterview {get; set;}
+    public Contact CurrentContact {get; set;}
+    public List<Contact> AllContacts {get; set;}
     public List<Company> AllCompanies {get; set;}
+    public List<Interview> AllInterviews {get; set;}
     }
 }

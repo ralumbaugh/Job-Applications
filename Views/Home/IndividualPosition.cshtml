@@ -5,7 +5,6 @@
     <div class="row d-flex justify-content-around">
             <a href="/NewInterview/@Model.CurrentPosition.PositionId"><button class="btn btn-primary">Schedule an interview</button></a>
             <a href="/EditPosition/@Model.CurrentPosition.PositionId"><button class="btn btn-primary">Edit Position</button></a>
-            @* <a href="/EditCompany"><button class="btn btn-primary">Change Notes</button></a> *@
             <a href="/DeletePosition/@Model.CurrentPosition.PositionId"><button class="btn btn-danger">Delete Position</button></a>
     </div>
     <hr>
@@ -23,6 +22,7 @@
             <a class="nav-link" id="pills-interviews-tab" data-toggle="pill" href="#pills-interviews" role="tab" aria-controls="pills-interviews" aria-selected="false">Interviews</a>
         </li>
     </ul>
+    <hr>
     <div class="tab-content" id="v-pills-tabContent">
         <div class="tab-pane fade show active" id="pills-requirements" role="tabpanel" aria-labelledby="pills-requirements-tab">
             @if(@Model.CurrentPosition.Requirements != null){
@@ -47,9 +47,25 @@
         </div>
         <div class="tab-pane fade" id="pills-interviews" role="tabpanel" aria-labelledby="pills-interviews-tab">
             @if(@Model.CurrentPosition.Interviews.Count != 0){
-                <div class="row d-flex justify-content-start">
-                    <p>@Model.CurrentPosition.Interviews</p>
-                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Notes</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Interview interview in @Model.AllInterviews)
+                        {
+                            <tr>
+                                <td>@interview.Date</td>
+                                <td>@interview.Notes</td>
+                                <td><a href="/EditInterview/@interview.InterviewId"><button class="btn btn-primary">Edit</button></a> | <a href="/DeleteInterview/@interview.InterviewId"><button class="btn btn-danger">Delete</button></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
         </div>
     </div>

@@ -1,0 +1,35 @@
+@model UserWrapper
+<div class="container">
+    <form asp-action="CreateContact" asp-controller="Home" method="POST">
+        <span class="text-danger" asp-validation-for="CurrentContact.Name"></span>
+        <input type="hidden" asp-for="CurrentContact.CompanyId" value="@Model.CurrentCompany.CompanyId">
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentContact.Name"></label>
+                <input asp-for="CurrentContact.Name">
+            </div>
+        </div>
+        <span class="text-danger" asp-validation-for="CurrentContact.PhoneNumber"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentContact.PhoneNumber"></label>
+                <input asp-for="CurrentContact.PhoneNumber">
+            </div>
+        </div>
+        <span class="text-danger" asp-validation-for="CurrentContact.Email"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentContact.Email"></label>
+                <input asp-for="CurrentContact.Email">
+            </div>
+        </div>
+        <span class="text-danger" asp-validation-for="CurrentContact.Notes"></span>
+        <div class="row">
+            <div class="form-group d-flex flex-column justify-content-between">
+                <label asp-for="CurrentContact.Notes"></label>
+                <input asp-for="CurrentContact.Notes">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Contact</button>
+    </form>
+</div>
